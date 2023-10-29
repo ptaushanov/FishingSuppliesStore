@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.security;
+package com.ptaushanov.shop.config;
 
 import com.ptaushanov.shop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
