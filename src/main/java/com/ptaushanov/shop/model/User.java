@@ -19,7 +19,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,16 +37,21 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role; // "CUSTOMER" or "OWNER"
 
-    private LocalDate dob;
-
-    public User(String firstName, String lastName, String username, String email, String password, UserRole role, LocalDate dob) {
+    public User(
+            String firstName,
+            String lastName,
+            String username,
+            String email,
+            String password,
+            UserRole role,
+            LocalDate dob
+    ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.dob = dob;
     }
 
     @Override
