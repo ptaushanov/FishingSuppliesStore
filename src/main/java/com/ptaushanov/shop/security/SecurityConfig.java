@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.config;
+package com.ptaushanov.shop.security;
 
 
 import org.springframework.context.annotation.Bean;
