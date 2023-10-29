@@ -30,7 +30,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    private Customizer<ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry> getAuthorizeRequestsCustomizer() {
+    public Customizer<ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry> getAuthorizeRequestsCustomizer() {
         return authorizeRequests -> {
             try {
                 authorizeRequests
