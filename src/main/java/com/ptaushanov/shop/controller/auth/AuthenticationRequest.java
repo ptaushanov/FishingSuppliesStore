@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.controller;
+package com.ptaushanov.shop.controller.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-    private String firstName;
-    private String lastName;
+public class AuthenticationRequest {
     private String username;
-    private String email;
     private String password;
 }

@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.controller;
+package com.ptaushanov.shop.controller.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

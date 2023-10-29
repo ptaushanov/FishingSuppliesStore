@@ -1,5 +1,8 @@
-package com.ptaushanov.shop.controller;
+package com.ptaushanov.shop.service;
 
+import com.ptaushanov.shop.controller.auth.AuthenticationRequest;
+import com.ptaushanov.shop.controller.auth.AuthenticationResponse;
+import com.ptaushanov.shop.controller.auth.RegisterRequest;
 import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.model.UserRole;
 import com.ptaushanov.shop.repository.UserRepository;
