@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.controller.auth;
+package com.ptaushanov.shop.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class AuthenticationResponseDTO {
     private String token;
 }

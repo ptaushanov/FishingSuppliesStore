@@ -1,8 +1,8 @@
 package com.ptaushanov.shop.service;
 
-import com.ptaushanov.shop.controller.auth.AuthenticationRequest;
-import com.ptaushanov.shop.controller.auth.AuthenticationResponse;
-import com.ptaushanov.shop.controller.auth.RegisterRequest;
+import com.ptaushanov.shop.dto.AuthenticationRequestDTO;
+import com.ptaushanov.shop.dto.AuthenticationResponseDTO;
+import com.ptaushanov.shop.dto.RegisterRequestDTO;
 import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.model.UserRole;
 import com.ptaushanov.shop.repository.UserRepository;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponseDTO register(RegisterRequestDTO request) {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         User user = User.builder()
                 .firstName(request.getFirstName())
@@ -35,12 +35,12 @@ public class AuthenticationService {
         userRepository.save(user);
 
         String jwt = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDTO.builder()
                 .token(jwt)
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -52,7 +52,7 @@ public class AuthenticationService {
                 .orElseThrow(() -> new IllegalStateException("User not found"));
 
         String jwt = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDTO.builder()
                 .token(jwt)
                 .build();
     }

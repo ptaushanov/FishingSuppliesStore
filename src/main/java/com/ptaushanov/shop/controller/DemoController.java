@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.service;
+package com.ptaushanov.shop.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
