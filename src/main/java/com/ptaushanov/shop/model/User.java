@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,8 +40,7 @@ public class User implements UserDetails {
             String username,
             String email,
             String password,
-            UserRole role,
-            LocalDate dob
+            UserRole role
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
