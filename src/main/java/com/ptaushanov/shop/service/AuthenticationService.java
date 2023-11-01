@@ -3,12 +3,12 @@ package com.ptaushanov.shop.service;
 import com.ptaushanov.shop.dto.AuthenticationRequestDTO;
 import com.ptaushanov.shop.dto.AuthenticationResponseDTO;
 import com.ptaushanov.shop.dto.RegisterRequestDTO;
-import com.ptaushanov.shop.mapper.RegistrationMapper;
 import com.ptaushanov.shop.model.User;
+import com.ptaushanov.shop.model.UserRole;
 import com.ptaushanov.shop.repository.UserRepository;
 import com.ptaushanov.shop.security.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.factory.Mappers;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,8 +23,7 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
-    private final RegistrationMapper registrationMapper =
-            Mappers.getMapper(RegistrationMapper.class);
+    private final ModelMapper modelMapper;
 
     public AuthenticationResponseDTO register(RegisterRequestDTO request) {
         // Encode password and set it to the request
@@ -32,7 +31,9 @@ public class AuthenticationService {
         request.setPassword(encodedPassword);
 
         // Map the request to a User object and save it to the database
-        User user = registrationMapper.mapToUser(request);
+        User user = modelMapper.createTypeMap(RegisterRequestDTO.class, User.class)
+                .addMapping(src -> UserRole.USER, User::setRole)
+                .map(request);
         userRepository.save(user);
 
         // Generate a JWT token and return it
