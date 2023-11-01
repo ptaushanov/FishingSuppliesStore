@@ -4,7 +4,6 @@ import com.ptaushanov.shop.dto.AuthenticationRequestDTO;
 import com.ptaushanov.shop.dto.AuthenticationResponseDTO;
 import com.ptaushanov.shop.dto.RegisterRequestDTO;
 import com.ptaushanov.shop.model.User;
-import com.ptaushanov.shop.model.UserRole;
 import com.ptaushanov.shop.repository.UserRepository;
 import com.ptaushanov.shop.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +30,7 @@ public class AuthenticationService {
         request.setPassword(encodedPassword);
 
         // Map the request to a User object and save it to the database
-        User user = modelMapper.createTypeMap(RegisterRequestDTO.class, User.class)
-                .addMapping(src -> UserRole.USER, User::setRole)
-                .map(request);
+        User user = modelMapper.map(request, User.class);
         userRepository.save(user);
 
         // Generate a JWT token and return it

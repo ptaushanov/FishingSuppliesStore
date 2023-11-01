@@ -4,6 +4,7 @@ import com.ptaushanov.shop.dto.AuthenticationRequestDTO;
 import com.ptaushanov.shop.dto.AuthenticationResponseDTO;
 import com.ptaushanov.shop.dto.RegisterRequestDTO;
 import com.ptaushanov.shop.service.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,14 +21,14 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponseDTO> register(
-            @RequestBody RegisterRequestDTO request
+            @RequestBody @Valid RegisterRequestDTO request
     ) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponseDTO> authenticate(
-            @RequestBody AuthenticationRequestDTO request
+            @RequestBody @Valid AuthenticationRequestDTO request
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
