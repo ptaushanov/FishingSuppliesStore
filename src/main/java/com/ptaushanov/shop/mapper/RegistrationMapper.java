@@ -5,7 +5,7 @@ import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.model.UserRole;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface RegistrationMapper {
     User mapToUser(RegisterRequestDTO registerRequestDTO);
 

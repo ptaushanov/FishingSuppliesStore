@@ -8,6 +8,7 @@ import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.repository.UserRepository;
 import com.ptaushanov.shop.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +23,8 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
-    private final RegistrationMapper registrationMapper;
+    private final RegistrationMapper registrationMapper =
+            Mappers.getMapper(RegistrationMapper.class);
 
     public AuthenticationResponseDTO register(RegisterRequestDTO request) {
         // Encode password and set it to the request
