@@ -18,7 +18,6 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "parent_category_id")
-    @Column(nullable = true)
     private Category parentCategory;
 
     public Category(String name, Category parentCategory) {

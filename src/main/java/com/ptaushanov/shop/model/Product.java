@@ -16,10 +16,8 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = true)
     private String description;
 
-    @Column(nullable = true)
     private String image;
 
     @Column(nullable = false)
@@ -29,8 +27,7 @@ public class Product {
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     public Product(String name, String description, String image, double price, int quantity, Category category) {
