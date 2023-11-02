@@ -24,8 +24,21 @@ public class CategoryController {
             @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(name = "sort", defaultValue = "id,asc") String sort
     ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort.split(",")));
+        String sortArray[] = sort.split(",");
+
+        if (sortArray.length < 2) {
+            throw new IllegalArgumentException(
+                    "Sort parameter must be in format: property,asc|desc"
+            );
+        }
+
+        String property = sortArray[0];
+        String direction = sortArray[1];
+
+        Pageable pageable = PageRequest.of(
+                page, size,
+                Sort.by(Sort.Direction.fromString(direction), property)
+        );
         return categoryService.getAllCategories(pageable);
     }
-
 }
