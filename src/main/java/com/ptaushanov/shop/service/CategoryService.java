@@ -1,6 +1,5 @@
 package com.ptaushanov.shop.service;
 
-import com.ptaushanov.shop.dto.AllCategoriesResponseDTO;
 import com.ptaushanov.shop.dto.CreateCategoryDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.repository.CategoryRepository;
@@ -16,9 +15,8 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
-    public AllCategoriesResponseDTO getAllCategories(Pageable pageable) {
-        Page<Category> categoriesPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(categoriesPage, AllCategoriesResponseDTO.class);
+    public Page<Category> getAllCategories(Pageable pageable) {
+        return categoryRepository.findAll(pageable);
     }
 
     public Category getCategoryById(Long id) {
@@ -38,7 +36,7 @@ public class CategoryService {
                 parentCategoryId).orElseThrow(() -> new IllegalArgumentException(
                 "Category with id " + parentCategoryId + " does not exist")
         );
-        
+
         createCategoryDTO.setParentCategory(parentCategory);
         Category category = modelMapper.map(createCategoryDTO, Category.class);
         return categoryRepository.save(category);

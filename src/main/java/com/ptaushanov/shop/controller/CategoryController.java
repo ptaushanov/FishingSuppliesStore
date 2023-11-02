@@ -1,10 +1,11 @@
 package com.ptaushanov.shop.controller;
 
-import com.ptaushanov.shop.dto.AllCategoriesResponseDTO;
 import com.ptaushanov.shop.dto.CreateCategoryDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,8 +19,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public AllCategoriesResponseDTO getAllCategories(
-            @RequestParam(name = "page", defaultValue = "1") int page,
+    public Page<Category> getAllCategories(
+            @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "5") int size,
             @RequestParam(name = "sort", defaultValue = "id,asc") String sort
     ) {
@@ -48,7 +49,7 @@ public class CategoryController {
 
     @PostMapping
     @Secured("ROLE_ADMIN")
-    public Category createCategory(@RequestBody CreateCategoryDTO createCategoryDTO) {
+    public Category createCategory(@RequestBody @Valid CreateCategoryDTO createCategoryDTO) {
         return categoryService.createCategory(createCategoryDTO);
     }
 

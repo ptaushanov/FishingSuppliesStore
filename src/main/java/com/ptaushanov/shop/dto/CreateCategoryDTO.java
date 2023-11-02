@@ -1,7 +1,7 @@
 package com.ptaushanov.shop.dto;
 
 import com.ptaushanov.shop.model.Category;
-import jakarta.persistence.Transient;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +19,6 @@ public class CreateCategoryDTO {
 
     private Long parentCategoryId;
 
-    @Transient
+    @Nullable
     private Category parentCategory;
 }
