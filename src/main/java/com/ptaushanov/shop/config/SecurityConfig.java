@@ -34,7 +34,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    private Customizer<ExceptionHandlingConfigurer<HttpSecurity>> getExceptionHandlingConfigurerCustomizer() {
+    public Customizer<ExceptionHandlingConfigurer<HttpSecurity>> getExceptionHandlingConfigurerCustomizer() {
         return exceptionHandling -> exceptionHandling
                 .authenticationEntryPoint(
                         customAuthenticationFailureHandler::onAuthenticationFailure
