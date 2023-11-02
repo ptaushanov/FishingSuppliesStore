@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryResponseDTO {
+public class AllCategoriesResponseDTO {
     private List<Category> content;
     private int totalPages;
     private long totalElements;
