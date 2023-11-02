@@ -1,9 +1,8 @@
 package com.ptaushanov.shop.controller;
 
-import com.ptaushanov.shop.model.Category;
+import com.ptaushanov.shop.dto.CategoryResponseDTO;
 import com.ptaushanov.shop.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,7 +18,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public Page<Category> getAllCategories(
+    public CategoryResponseDTO getAllCategories(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(name = "sort", defaultValue = "id,asc") String sort
