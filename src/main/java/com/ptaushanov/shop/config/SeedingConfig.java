@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
 @Configuration
 public class SeedingConfig {
     @Bean
@@ -28,13 +30,13 @@ public class SeedingConfig {
             User ivan = User.builder()
                     .firstName("Ivan")
                     .lastName("Petrov")
-                    .username("ivan_petrov")
+                    .username("ipetrov")
                     .email("ipetrov@gmail.com")
                     .password(passwordEncoder.encode("123456"))
                     .role(UserRole.USER)
                     .build();
 
-            userRepository.save(admin);
+            userRepository.saveAll(List.of(admin, ivan));
         };
 
     }

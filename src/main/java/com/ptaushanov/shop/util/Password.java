@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = PasswordValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PasswordConstraint {
+public @interface Password {
     String message() default
             "Invalid password! Password must be at least 6 characters long, " +
             "contain at least one digit, two uppercase letters, two lowercase " +

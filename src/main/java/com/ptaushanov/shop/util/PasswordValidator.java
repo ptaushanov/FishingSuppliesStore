@@ -3,10 +3,10 @@ package com.ptaushanov.shop.util;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PasswordValidator implements ConstraintValidator<PasswordConstraint, String> {
+public class PasswordValidator implements ConstraintValidator<Password, String> {
 
     @Override
-    public void initialize(PasswordConstraint constraintAnnotation) {
+    public void initialize(Password constraintAnnotation) {
     }
 
     @Override

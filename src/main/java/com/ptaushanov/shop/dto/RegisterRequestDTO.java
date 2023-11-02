@@ -1,5 +1,6 @@
 package com.ptaushanov.shop.dto;
 
+import com.ptaushanov.shop.util.Password;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -27,7 +28,6 @@ public class RegisterRequestDTO {
     @Email(message = "Email must be valid")
     private String email;
     @NotBlank(message = "Password cannot be blank")
-    @Size(min = 6, max = 30, message = "Password must be between 6 and 30 characters long")
-    
+    @Password
     private String password;
 }
