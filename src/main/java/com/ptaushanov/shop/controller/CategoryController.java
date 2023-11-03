@@ -6,9 +6,6 @@ import com.ptaushanov.shop.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,24 +19,9 @@ public class CategoryController {
     public Page<CategoryResponseDTO> getAllCategories(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "5") int size,
-            @RequestParam(name = "sort", defaultValue = "id,asc") String sort
+            @RequestParam(name = "sort", defaultValue = "id,asc") String sortString
     ) {
-        String sortArray[] = sort.split(",");
-
-        if (sortArray.length < 2) {
-            throw new IllegalArgumentException(
-                    "Sort parameter must be in format: property,asc|desc"
-            );
-        }
-
-        String property = sortArray[0];
-        String direction = sortArray[1];
-
-        Pageable pageable = PageRequest.of(
-                page, size,
-                Sort.by(Sort.Direction.fromString(direction), property)
-        );
-        return categoryService.getAllCategories(pageable);
+        return categoryService.getAllCategories(page, size, sortString);
     }
 
     @GetMapping(path = "/{id}")

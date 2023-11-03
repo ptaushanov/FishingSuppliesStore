@@ -8,7 +8,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +19,25 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
-    public Page<CategoryResponseDTO> getAllCategories(Pageable pageable) {
+    public Page<CategoryResponseDTO> getAllCategories(
+            int page, int size, String sortString
+    ) {
+        String sortArray[] = sortString.split(",");
+
+        if (sortArray.length < 2) {
+            throw new IllegalArgumentException(
+                    "Sort parameter must be in format: property,asc|desc"
+            );
+        }
+
+        String property = sortArray[0];
+        String direction = sortArray[1];
+
+        Pageable pageable = PageRequest.of(
+                page, size,
+                Sort.by(Sort.Direction.fromString(direction), property)
+        );
+
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
         return categoryPage.map(category -> modelMapper.map(category, CategoryResponseDTO.class));
     }
