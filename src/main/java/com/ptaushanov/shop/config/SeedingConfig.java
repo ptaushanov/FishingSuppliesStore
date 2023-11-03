@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
-
 @Configuration
 public class SeedingConfig {
     @Bean
@@ -18,25 +16,34 @@ public class SeedingConfig {
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
-            User admin = User.builder()
-                    .firstName("Admin")
-                    .lastName("Admin")
-                    .username("admin")
-                    .email("admin@internal.com")
-                    .password(passwordEncoder.encode("admin"))
-                    .role(UserRole.ADMIN)
-                    .build();
+            boolean existsAdmin = userRepository.existsByUsername("admin");
+            boolean existsIvan = userRepository.existsByUsername("ipetrov");
 
-            User ivan = User.builder()
-                    .firstName("Ivan")
-                    .lastName("Petrov")
-                    .username("ipetrov")
-                    .email("ipetrov@gmail.com")
-                    .password(passwordEncoder.encode("123456"))
-                    .role(UserRole.USER)
-                    .build();
+            if (existsAdmin && existsIvan) return;
 
-            userRepository.saveAll(List.of(admin, ivan));
+            if (!existsAdmin) {
+                User admin = User.builder()
+                        .firstName("Admin")
+                        .lastName("Admin")
+                        .username("admin")
+                        .email("admin@internal.com")
+                        .password(passwordEncoder.encode("admin"))
+                        .role(UserRole.ADMIN)
+                        .build();
+                userRepository.save(admin);
+            }
+
+            if (!existsIvan) {
+                User ivan = User.builder()
+                        .firstName("Ivan")
+                        .lastName("Petrov")
+                        .username("ipetrov")
+                        .email("ipetrov@gmail.com")
+                        .password(passwordEncoder.encode("123456"))
+                        .role(UserRole.USER)
+                        .build();
+                userRepository.save(ivan);
+            }
         };
 
     }
