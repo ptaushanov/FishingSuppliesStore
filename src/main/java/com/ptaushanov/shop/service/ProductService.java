@@ -44,7 +44,7 @@ public class ProductService {
         // Map productRequestDTO to Product, save it and remap it to ProductResponseDTO
         Product product = modelMapper.map(productRequestDTO, Product.class);
         return modelMapper.map(
-                categoryRepository.save(category),
+                productRepository.save(product),
                 ProductResponseDTO.class
         );
     }
