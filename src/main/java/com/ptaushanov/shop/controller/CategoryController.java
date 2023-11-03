@@ -54,4 +54,18 @@ public class CategoryController {
         return categoryService.createCategory(categoryRequestDTO);
     }
 
+    @PutMapping(path = "/{id}")
+    @Secured("ROLE_ADMIN")
+    public CategoryResponseDTO updateCategory(
+            @PathVariable(name = "id") Long id,
+            @RequestBody @Valid CategoryRequestDTO categoryRequestDTO) {
+        return categoryService.updateCategory(id, categoryRequestDTO);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @Secured("ROLE_ADMIN")
+    public void deleteCategory(@PathVariable(name = "id") Long id) {
+        categoryService.deleteCategory(id);
+    }
+
 }

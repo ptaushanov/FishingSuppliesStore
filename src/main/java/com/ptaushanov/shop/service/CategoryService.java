@@ -4,6 +4,7 @@ import com.ptaushanov.shop.dto.category.CategoryRequestDTO;
 import com.ptaushanov.shop.dto.category.CategoryResponseDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -49,5 +50,23 @@ public class CategoryService {
                 categoryRepository.save(category),
                 CategoryResponseDTO.class
         );
+    }
+
+    @Transactional
+    public CategoryResponseDTO updateCategory(Long id, CategoryRequestDTO categoryRequestDTO) {
+        Category category = categoryRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Category with id " + id + " does not exist")
+        );
+
+        category.setName(categoryRequestDTO.getName());
+        category.setParentCategory(categoryRequestDTO.getParentCategory());
+        return modelMapper.map(category, CategoryResponseDTO.class);
+    }
+
+    public void deleteCategory(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new IllegalArgumentException("Category with id " + id + " does not exist");
+        }
+        categoryRepository.deleteById(id);
     }
 }
