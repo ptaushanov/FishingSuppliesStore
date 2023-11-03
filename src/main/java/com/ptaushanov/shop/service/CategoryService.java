@@ -30,6 +30,7 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO) {
+        // If parentCategoryId is null, create category without parentCategory
         if (categoryRequestDTO.getParentCategoryId() == null) {
             Category category = modelMapper.map(categoryRequestDTO, Category.class);
             return modelMapper.map(
@@ -38,13 +39,15 @@ public class CategoryService {
             );
         }
 
+        // If parentCategoryId not null, set parentCategory
         Long parentCategoryId = categoryRequestDTO.getParentCategoryId();
         Category parentCategory = categoryRepository.findById(
                 parentCategoryId).orElseThrow(() -> new IllegalArgumentException(
                 "Category with id " + parentCategoryId + " does not exist")
         );
-
         categoryRequestDTO.setParentCategory(parentCategory);
+
+        // Map categoryRequestDTO to Category, save it and remap it to CategoryResponseDTO
         Category category = modelMapper.map(categoryRequestDTO, Category.class);
         return modelMapper.map(
                 categoryRepository.save(category),
@@ -58,8 +61,18 @@ public class CategoryService {
                 () -> new IllegalArgumentException("Category with id " + id + " does not exist")
         );
 
+        // If parentCategoryId not null, set parentCategory else set null
+        Long parentCategoryId = categoryRequestDTO.getParentCategoryId();
+        Category parentCategory = parentCategoryId != null ? categoryRepository.findById(
+                parentCategoryId).orElseThrow(() -> new IllegalArgumentException(
+                "Category with id " + parentCategoryId + " does not exist")
+        ) : null;
+        category.setParentCategory(parentCategory);
+
+        // Set name and description from categoryRequestDTO
         category.setName(categoryRequestDTO.getName());
-        category.setParentCategory(categoryRequestDTO.getParentCategory());
+        category.setDescription(categoryRequestDTO.getDescription());
+
         return modelMapper.map(category, CategoryResponseDTO.class);
     }
 

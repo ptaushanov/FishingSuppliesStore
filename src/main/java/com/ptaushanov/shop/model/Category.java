@@ -16,6 +16,8 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
