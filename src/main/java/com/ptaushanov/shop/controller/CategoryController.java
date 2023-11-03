@@ -1,6 +1,7 @@
 package com.ptaushanov.shop.controller;
 
 import com.ptaushanov.shop.dto.CategoryRequestDTO;
+import com.ptaushanov.shop.dto.CategoryResponseDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.service.CategoryService;
 import jakarta.validation.Valid;
@@ -19,7 +20,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public Page<Category> getAllCategories(
+    public Page<CategoryResponseDTO> getAllCategories(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "5") int size,
             @RequestParam(name = "sort", defaultValue = "id,asc") String sort
