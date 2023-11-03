@@ -1,6 +1,6 @@
 package com.ptaushanov.shop.service;
 
-import com.ptaushanov.shop.dto.CreateCategoryDTO;
+import com.ptaushanov.shop.dto.CategoryRequestDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,20 +25,20 @@ public class CategoryService {
         );
     }
 
-    public Category createCategory(CreateCategoryDTO createCategoryDTO) {
-        if (createCategoryDTO.getParentCategoryId() == null) {
-            Category category = modelMapper.map(createCategoryDTO, Category.class);
+    public Category createCategory(CategoryRequestDTO categoryRequestDTO) {
+        if (categoryRequestDTO.getParentCategoryId() == null) {
+            Category category = modelMapper.map(categoryRequestDTO, Category.class);
             return categoryRepository.save(category);
         }
 
-        Long parentCategoryId = createCategoryDTO.getParentCategoryId();
+        Long parentCategoryId = categoryRequestDTO.getParentCategoryId();
         Category parentCategory = categoryRepository.findById(
                 parentCategoryId).orElseThrow(() -> new IllegalArgumentException(
                 "Category with id " + parentCategoryId + " does not exist")
         );
 
-        createCategoryDTO.setParentCategory(parentCategory);
-        Category category = modelMapper.map(createCategoryDTO, Category.class);
+        categoryRequestDTO.setParentCategory(parentCategory);
+        Category category = modelMapper.map(categoryRequestDTO, Category.class);
         return categoryRepository.save(category);
     }
 }

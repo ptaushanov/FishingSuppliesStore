@@ -1,6 +1,6 @@
 package com.ptaushanov.shop.controller;
 
-import com.ptaushanov.shop.dto.CreateCategoryDTO;
+import com.ptaushanov.shop.dto.CategoryRequestDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.service.CategoryService;
 import jakarta.validation.Valid;
@@ -49,8 +49,8 @@ public class CategoryController {
 
     @PostMapping
     @Secured("ROLE_ADMIN")
-    public Category createCategory(@RequestBody @Valid CreateCategoryDTO createCategoryDTO) {
-        return categoryService.createCategory(createCategoryDTO);
+    public Category createCategory(@RequestBody @Valid CategoryRequestDTO categoryRequestDTO) {
+        return categoryService.createCategory(categoryRequestDTO);
     }
 
 }

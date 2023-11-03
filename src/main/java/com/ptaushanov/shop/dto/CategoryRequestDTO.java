@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCategoryDTO {
+public class CategoryRequestDTO {
     @NotBlank(message = "Name is mandatory")
     private String name;
 
