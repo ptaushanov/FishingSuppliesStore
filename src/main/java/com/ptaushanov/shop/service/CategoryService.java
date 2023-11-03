@@ -21,16 +21,20 @@ public class CategoryService {
         return categoryPage.map(category -> modelMapper.map(category, CategoryResponseDTO.class));
     }
 
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(
+    public CategoryResponseDTO getCategoryById(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Category with id " + id + " does not exist")
         );
+        return modelMapper.map(category, CategoryResponseDTO.class);
     }
 
-    public Category createCategory(CategoryRequestDTO categoryRequestDTO) {
+    public CategoryResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO) {
         if (categoryRequestDTO.getParentCategoryId() == null) {
             Category category = modelMapper.map(categoryRequestDTO, Category.class);
-            return categoryRepository.save(category);
+            return modelMapper.map(
+                    categoryRepository.save(category),
+                    CategoryResponseDTO.class
+            );
         }
 
         Long parentCategoryId = categoryRequestDTO.getParentCategoryId();
@@ -41,6 +45,9 @@ public class CategoryService {
 
         categoryRequestDTO.setParentCategory(parentCategory);
         Category category = modelMapper.map(categoryRequestDTO, Category.class);
-        return categoryRepository.save(category);
+        return modelMapper.map(
+                categoryRepository.save(category),
+                CategoryResponseDTO.class
+        );
     }
 }

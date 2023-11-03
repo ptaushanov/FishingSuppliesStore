@@ -22,7 +22,7 @@ public class ModelMapperConfig {
 
         // CreateCategoryDTO -> Category
         modelMapper.createTypeMap(CategoryRequestDTO.class, Category.class)
-                .addMapping(src -> null, Category::setId);
+                .addMapping(src -> src.getId(), Category::setId);
 
         return modelMapper;
     }

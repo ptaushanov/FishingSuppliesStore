@@ -1,7 +1,7 @@
 package com.ptaushanov.shop.dto.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ptaushanov.shop.model.Category;
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryRequestDTO {
+    @JsonIgnore
+    private Long id;
+
     @NotBlank(message = "Name is mandatory")
     private String name;
 
@@ -19,6 +22,6 @@ public class CategoryRequestDTO {
 
     private Long parentCategoryId;
 
-    @Nullable
+    @JsonIgnore
     private Category parentCategory;
 }

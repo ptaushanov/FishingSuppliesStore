@@ -2,7 +2,6 @@ package com.ptaushanov.shop.controller;
 
 import com.ptaushanov.shop.dto.category.CategoryRequestDTO;
 import com.ptaushanov.shop.dto.category.CategoryResponseDTO;
-import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,13 +43,14 @@ public class CategoryController {
     }
 
     @GetMapping(path = "/{id}")
-    public Category getCategoryById(@PathVariable(name = "id") Long id) {
+    public CategoryResponseDTO getCategoryById(@PathVariable(name = "id") Long id) {
         return categoryService.getCategoryById(id);
     }
 
     @PostMapping
     @Secured("ROLE_ADMIN")
-    public Category createCategory(@RequestBody @Valid CategoryRequestDTO categoryRequestDTO) {
+    public CategoryResponseDTO createCategory(
+            @RequestBody @Valid CategoryRequestDTO categoryRequestDTO) {
         return categoryService.createCategory(categoryRequestDTO);
     }
 
