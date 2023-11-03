@@ -1,7 +1,7 @@
 package com.ptaushanov.shop.config;
 
-import com.ptaushanov.shop.dto.CategoryRequestDTO;
-import com.ptaushanov.shop.dto.RegisterRequestDTO;
+import com.ptaushanov.shop.dto.auth.RegisterRequestDTO;
+import com.ptaushanov.shop.dto.category.CategoryRequestDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.model.UserRole;

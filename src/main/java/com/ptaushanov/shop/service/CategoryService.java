@@ -1,7 +1,7 @@
 package com.ptaushanov.shop.service;
 
-import com.ptaushanov.shop.dto.CategoryRequestDTO;
-import com.ptaushanov.shop.dto.CategoryResponseDTO;
+import com.ptaushanov.shop.dto.category.CategoryRequestDTO;
+import com.ptaushanov.shop.dto.category.CategoryResponseDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;

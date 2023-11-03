@@ -1,7 +1,7 @@
 package com.ptaushanov.shop.controller;
 
-import com.ptaushanov.shop.dto.CategoryRequestDTO;
-import com.ptaushanov.shop.dto.CategoryResponseDTO;
+import com.ptaushanov.shop.dto.category.CategoryRequestDTO;
+import com.ptaushanov.shop.dto.category.CategoryResponseDTO;
 import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.service.CategoryService;
 import jakarta.validation.Valid;

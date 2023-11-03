@@ -1,14 +1,13 @@
-package com.ptaushanov.shop.dto;
+package com.ptaushanov.shop.dto.category;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@Builder
 @NoArgsConstructor
-public class AuthenticationResponseDTO {
-    private String token;
+public class CategoryResponseDTO {
+    private Long id;
+    private String name;
 }

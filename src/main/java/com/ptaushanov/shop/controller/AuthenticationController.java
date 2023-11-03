@@ -1,8 +1,8 @@
 package com.ptaushanov.shop.controller;
 
-import com.ptaushanov.shop.dto.AuthenticationRequestDTO;
-import com.ptaushanov.shop.dto.AuthenticationResponseDTO;
-import com.ptaushanov.shop.dto.RegisterRequestDTO;
+import com.ptaushanov.shop.dto.auth.AuthenticationRequestDTO;
+import com.ptaushanov.shop.dto.auth.AuthenticationResponseDTO;
+import com.ptaushanov.shop.dto.auth.RegisterRequestDTO;
 import com.ptaushanov.shop.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

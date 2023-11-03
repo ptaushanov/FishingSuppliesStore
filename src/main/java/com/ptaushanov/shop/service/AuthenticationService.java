@@ -1,8 +1,8 @@
 package com.ptaushanov.shop.service;
 
-import com.ptaushanov.shop.dto.AuthenticationRequestDTO;
-import com.ptaushanov.shop.dto.AuthenticationResponseDTO;
-import com.ptaushanov.shop.dto.RegisterRequestDTO;
+import com.ptaushanov.shop.dto.auth.AuthenticationRequestDTO;
+import com.ptaushanov.shop.dto.auth.AuthenticationResponseDTO;
+import com.ptaushanov.shop.dto.auth.RegisterRequestDTO;
 import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.repository.UserRepository;
 import com.ptaushanov.shop.security.JwtService;

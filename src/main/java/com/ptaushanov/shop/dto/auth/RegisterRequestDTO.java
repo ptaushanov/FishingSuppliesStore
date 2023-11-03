@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.dto;
+package com.ptaushanov.shop.dto.auth;
 
 import com.ptaushanov.shop.util.Password;
 import jakarta.validation.constraints.Email;

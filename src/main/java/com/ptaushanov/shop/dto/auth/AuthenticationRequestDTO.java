@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.dto;
+package com.ptaushanov.shop.dto.auth;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

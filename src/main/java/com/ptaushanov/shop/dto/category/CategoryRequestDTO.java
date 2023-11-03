@@ -1,4 +1,4 @@
-package com.ptaushanov.shop.dto;
+package com.ptaushanov.shop.dto.category;
 
 import com.ptaushanov.shop.model.Category;
 import jakarta.annotation.Nullable;
