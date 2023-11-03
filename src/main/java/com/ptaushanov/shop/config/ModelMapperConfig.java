@@ -2,7 +2,9 @@ package com.ptaushanov.shop.config;
 
 import com.ptaushanov.shop.dto.auth.RegisterRequestDTO;
 import com.ptaushanov.shop.dto.category.CategoryRequestDTO;
+import com.ptaushanov.shop.dto.product.ProductRequestDTO;
 import com.ptaushanov.shop.model.Category;
+import com.ptaushanov.shop.model.Product;
 import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.model.UserRole;
 import org.modelmapper.ModelMapper;
@@ -20,9 +22,13 @@ public class ModelMapperConfig {
         modelMapper.createTypeMap(RegisterRequestDTO.class, User.class)
                 .addMapping(src -> UserRole.USER, User::setRole);
 
-        // CreateCategoryDTO -> Category
+        // CategoryRequestDTO -> Category
         modelMapper.createTypeMap(CategoryRequestDTO.class, Category.class)
                 .addMapping(src -> src.getId(), Category::setId);
+
+        // ProductRequestDTO -> Product
+        modelMapper.createTypeMap(ProductRequestDTO.class, Product.class)
+                .addMapping(src -> src.getId(), Product::setId);
 
         return modelMapper;
     }
