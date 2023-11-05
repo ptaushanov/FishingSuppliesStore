@@ -18,7 +18,7 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
-        // RegisterRequestDTO -> User
+        // UserRequestDTO -> User
         modelMapper.createTypeMap(RegisterRequestDTO.class, User.class)
                 .addMapping(src -> UserRole.USER, User::setRole);
 
