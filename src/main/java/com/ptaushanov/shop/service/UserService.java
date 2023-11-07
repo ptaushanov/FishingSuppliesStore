@@ -7,8 +7,12 @@ import com.ptaushanov.shop.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.ptaushanov.shop.util.PageableHelpers.createPageable;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +20,19 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+
+    public Page<UserResponseDTO> getAllUsers(int page, int size, String sortString) {
+        Pageable pageable = createPageable(page, size, sortString);
+        Page<User> userPage = userRepository.findAll(pageable);
+        return userPage.map(user -> modelMapper.map(user, UserResponseDTO.class));
+    }
+
+    public UserResponseDTO getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("User with id " + id + " does not exist")
+        );
+        return modelMapper.map(user, UserResponseDTO.class);
+    }
 
     public UserResponseDTO createUser(UserRequestDTO request) {
         // Encode password and set it to the request
@@ -25,13 +42,6 @@ public class UserService {
         // Map the request to a User object and save it to the database
         User user = modelMapper.map(request, User.class);
         return modelMapper.map(userRepository.save(user), UserResponseDTO.class);
-    }
-
-    public UserResponseDTO getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("User with id " + id + " does not exist")
-        );
-        return modelMapper.map(user, UserResponseDTO.class);
     }
 
     @Transactional

@@ -10,10 +10,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import static com.ptaushanov.shop.util.PageableHelpers.createPageable;
 
 @Service
 @RequiredArgsConstructor
@@ -21,29 +21,6 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
-
-    private Sort createSort(String sortString) {
-        String sortArray[] = sortString.split(",");
-        if (sortArray.length < 2) {
-            throw new IllegalArgumentException(
-                    "Sort parameter must be in format: property,asc|desc"
-            );
-        }
-        String property = sortArray[0];
-        String direction = sortArray[1];
-        if (!direction.equals("asc") && !direction.equals("desc")) {
-            throw new IllegalArgumentException(
-                    "Sort parameter must be in format: property,asc|desc"
-            );
-        }
-        return Sort.by(Sort.Direction.fromString(direction), property);
-    }
-
-    private Pageable createPageable(int page, int size, String sortString) {
-        Sort sort = createSort(sortString);
-        return PageRequest.of(page, size, sort);
-    }
-
 
     public Page<ProductResponseDTO> getAllProducts(
             int page, int size, String sortString, String filterString
