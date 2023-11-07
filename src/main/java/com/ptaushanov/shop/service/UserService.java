@@ -44,7 +44,8 @@ public class UserService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        return modelMapper.map(userRepository.save(user), UserResponseDTO.class);
+        user.setRole(request.getRole());
+        return modelMapper.map(user, UserResponseDTO.class);
     }
 
     public void deleteUserById(Long id) {
