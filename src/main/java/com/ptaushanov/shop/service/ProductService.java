@@ -6,11 +6,13 @@ import com.ptaushanov.shop.model.Category;
 import com.ptaushanov.shop.model.Product;
 import com.ptaushanov.shop.repository.CategoryRepository;
 import com.ptaushanov.shop.repository.ProductRepository;
+import com.ptaushanov.shop.util.FilterSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import static com.ptaushanov.shop.util.PageableHelpers.createPageable;
@@ -26,7 +28,8 @@ public class ProductService {
             int page, int size, String sortString, String filterString
     ) {
         Pageable pageable = createPageable(page, size, sortString);
-        Page<Product> categoryPage = productRepository.findAll(pageable);
+        Specification<Product> specification = FilterSpecification.filterQuery(filterString);
+        Page<Product> categoryPage = productRepository.findAll(specification, pageable);
         return categoryPage.map(category -> modelMapper.map(category, ProductResponseDTO.class));
     }
 
