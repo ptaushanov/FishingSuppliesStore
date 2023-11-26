@@ -31,7 +31,6 @@ public class Order {
     private User customer;
 
     @ManyToMany
-    @JoinColumn(name = "product_id", nullable = false)
     private List<Product> products;
 
     @Column(nullable = false)
