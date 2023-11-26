@@ -54,10 +54,7 @@ public class CategoryService {
 
         // Map categoryRequestDTO to Category, save it and remap it to CategoryResponseDTO
         Category category = modelMapper.map(categoryRequestDTO, Category.class);
-        return modelMapper.map(
-                categoryRepository.save(category),
-                CategoryResponseDTO.class
-        );
+        return modelMapper.map(categoryRepository.save(category), CategoryResponseDTO.class);
     }
 
     @Transactional

@@ -3,12 +3,18 @@ package com.ptaushanov.shop.service;
 import com.ptaushanov.shop.dto.order.OrderRequestDTO;
 import com.ptaushanov.shop.dto.order.OrderResponseDTO;
 import com.ptaushanov.shop.model.Order;
+import com.ptaushanov.shop.model.Product;
+import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.repository.OrderRepository;
+import com.ptaushanov.shop.repository.ProductRepository;
+import com.ptaushanov.shop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.ptaushanov.shop.util.PageableHelpers.createPageable;
 
@@ -16,8 +22,9 @@ import static com.ptaushanov.shop.util.PageableHelpers.createPageable;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-
+    private final ProductRepository productRepository;
 
     public Page<OrderResponseDTO> getAllOrders(
             int page, int size, String sortString
@@ -35,28 +42,16 @@ public class OrderService {
     }
 
     public OrderResponseDTO createOrder(OrderRequestDTO orderRequestDTO) {
-        // If parentOrderId is null, create order without parentOrder
-        if (orderRequestDTO.getParentOrderId() == null) {
-            Order order = modelMapper.map(orderRequestDTO, Order.class);
-            return modelMapper.map(
-                    orderRepository.save(order),
-                    OrderResponseDTO.class
-            );
-        }
-
-        // If parentOrderId not null, set parentOrder
-        Long parentOrderId = orderRequestDTO.getParentOrderId();
-        Order parentOrder = orderRepository.findById(
-                parentOrderId).orElseThrow(() -> new IllegalArgumentException(
-                "Order with id " + parentOrderId + " does not exist")
+        User customer = userRepository.findById(orderRequestDTO.getCustomerId()).orElseThrow(
+                () -> new IllegalArgumentException(
+                        "User with id " + orderRequestDTO.getCustomerId() + " does not exist")
         );
-        orderRequestDTO.setParentOrder(parentOrder);
+        orderRequestDTO.setCustomer(customer);
 
-        // Map orderRequestDTO to Order, save it and remap it to OrderResponseDTO
+        List<Product> products = productRepository.findAllById(orderRequestDTO.getProductIds());
+        orderRequestDTO.setProducts(products);
+
         Order order = modelMapper.map(orderRequestDTO, Order.class);
-        return modelMapper.map(
-                orderRepository.save(order),
-                OrderResponseDTO.class
-        );
+        return modelMapper.map(orderRepository.save(order), OrderResponseDTO.class);
     }
 }
