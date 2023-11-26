@@ -54,4 +54,10 @@ public class OrderService {
         Order order = modelMapper.map(orderRequestDTO, Order.class);
         return modelMapper.map(orderRepository.save(order), OrderResponseDTO.class);
     }
+
+    public void deleteOrder(Long id) {
+        if (!orderRepository.existsById(id)) throw new IllegalArgumentException(
+                "Order with id " + id + " does not exist");
+        orderRepository.deleteById(id);
+    }
 }
