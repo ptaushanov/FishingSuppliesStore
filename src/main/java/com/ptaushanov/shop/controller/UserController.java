@@ -18,11 +18,12 @@ public class UserController {
 
     @GetMapping
     public Page<UserResponseDTO> getAllUsers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "id,asc") String sortString
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size,
+            @RequestParam(name = "sort", defaultValue = "id,asc") String sortString,
+            @RequestParam(name = "filter", defaultValue = "") String filterString
     ) {
-        return userService.getAllUsers(page, size, sortString);
+        return userService.getAllUsers(page, size, sortString, filterString);
     }
 
     @GetMapping(path = "/{id}")

@@ -4,11 +4,13 @@ import com.ptaushanov.shop.dto.user.UserRequestDTO;
 import com.ptaushanov.shop.dto.user.UserResponseDTO;
 import com.ptaushanov.shop.model.User;
 import com.ptaushanov.shop.repository.UserRepository;
+import com.ptaushanov.shop.util.FilterSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public Page<UserResponseDTO> getAllUsers(int page, int size, String sortString) {
+    public Page<UserResponseDTO> getAllUsers(int page, int size, String sortString, String filterString) {
         Pageable pageable = createPageable(page, size, sortString);
-        Page<User> userPage = userRepository.findAll(pageable);
+        Specification<User> specification = FilterSpecification.filterQuery(filterString);
+
+        Page<User> userPage = userRepository.findAll(specification, pageable);
         return userPage.map(user -> modelMapper.map(user, UserResponseDTO.class));
     }
 
