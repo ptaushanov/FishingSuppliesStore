@@ -4,13 +4,13 @@ import jakarta.persistence.metamodel.EntityType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.data.jpa.domain.Specification;
 
 public class FilterSpecification {
     private static final Logger logger = LoggerFactory.getLogger(FilterSpecification.class);
-    private static ConversionService conversionService;
+    private static final ConversionService conversionService = new DefaultConversionService();
 
     public static <T> Specification<T> filterQuery(String filter) {
         return (root, query, criteriaBuilder) -> {
@@ -43,10 +43,5 @@ public class FilterSpecification {
             );
             return null;
         }
-    }
-
-    @Autowired
-    public void setConversionService(ConversionService conversionService) {
-        FilterSpecification.conversionService = conversionService;
     }
 }
