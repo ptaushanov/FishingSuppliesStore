@@ -26,12 +26,10 @@ public class Order {
     @Column(name = "created_at", updatable = false)
     private Date createdAt;
 
-    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User customer;
 
-    @Column(nullable = false)
     @ManyToMany
     @JoinColumn(name = "product_id", nullable = false)
     private List<Product> products;
