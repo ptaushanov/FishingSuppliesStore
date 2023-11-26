@@ -29,7 +29,7 @@ public class SeedingConfig {
     CommandLineRunner commandLineRunner() {
         return args -> {
             String ddlAuto = environment.getProperty("spring.jpa.hibernate.ddl-auto");
-            if (!ddlAuto.contains("create")) return;
+            if (ddlAuto != null && !ddlAuto.contains("create")) return;
             seedUsers();
             seedCategoriesAndProducts();
         };
