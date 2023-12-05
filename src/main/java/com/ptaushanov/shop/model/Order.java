@@ -30,29 +30,25 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User customer;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(
-            name = "order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id")
+    private List<OrderItem> orderItems;
 
     @Column(nullable = false)
     private double totalPrice;
 
-    public Order(User customer, List<Product> products) {
+    public Order(User customer, List<OrderItem> orderItems) {
         this.customer = customer;
-        this.products = products;
+        this.orderItems = orderItems;
     }
 
     @PrePersist
     @PreUpdate
     private void calculateTotalPrice() {
-        if (products != null) {
+        if (orderItems != null) {
             double total = 0.0;
-            for (Product product : products) {
-                total += product.getPrice();
+            for (OrderItem orderItem : orderItems) {
+                total += orderItem.getProductPrice() * orderItem.getAmount();
             }
             this.totalPrice = total;
         }

@@ -1,27 +1,25 @@
 package com.ptaushanov.shop.dto.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ptaushanov.shop.model.User;
+import com.ptaushanov.shop.model.Product;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderRequestDTO {
+public class OrderItemDTO {
     @JsonIgnore
     private Long id;
 
-    @NotNull(message = "Customer id cannot be null")
-    private Long customerId;
+    @NotNull(message = "Product id cannot be null")
+    private Long productId;
 
-    @NotNull(message = "Order items cannot be null")
-    private List<OrderItemDTO> orderItems;
+    @NotNull(message = "Product name cannot be null")
+    private int amount;
 
     @JsonIgnore
-    private User customer;
+    private Product product;
 }

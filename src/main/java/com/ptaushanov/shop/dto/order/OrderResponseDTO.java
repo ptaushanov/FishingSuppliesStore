@@ -1,6 +1,5 @@
 package com.ptaushanov.shop.dto.order;
 
-import com.ptaushanov.shop.dto.product.ProductResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,6 @@ public class OrderResponseDTO {
     private String customerUsername;
     private String customerEmail;
 
-    private List<ProductResponseDTO> products;
+    private List<OrderItemDTO> orderItems;
     private double totalPrice;
 }
