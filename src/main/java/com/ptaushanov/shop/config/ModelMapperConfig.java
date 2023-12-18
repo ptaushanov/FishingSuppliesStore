@@ -12,7 +12,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,21 +36,31 @@ public class ModelMapperConfig {
 
 
         // OrderItemDTO -> OrderItem
-        // Add a custom mapping for the order items
-        Converter<List<OrderItemDTO>, ArrayList<OrderItem>> orderItemsConverter = context ->
+        // TODO: Figure out why this doesn't work for product id
+//        modelMapper.createTypeMap(OrderItemDTO.class, OrderItem.class)
+//                .addMapping(OrderItemDTO::getId, OrderItem::setId)
+//                .addMapping(OrderItemDTO::getProductId, OrderItem::setProductId)
+//                .addMapping(src -> src.getProduct().getName(), OrderItem::setProductName)
+//                .addMapping(src -> src.getProduct().getDescription(), OrderItem::setProductDescription)
+//                .addMapping(src -> src.getProduct().getImage(), OrderItem::setProductImage)
+//                .addMapping(src -> src.getProduct().getPrice(), OrderItem::setProductPrice)
+//                .addMapping(OrderItemDTO::getAmount, OrderItem::setAmount);
+
+        // Add a custom mapping for the order item list
+        Converter<List<OrderItemDTO>, List<OrderItem>> orderItemsConverter = context ->
                 context.getSource().stream()
-                        .map(orderItem -> OrderItem
+                        .map(orderItemDTO -> OrderItem // explicit mapping
                                 .builder()
-                                .id(orderItem.getId())
-                                .productId(orderItem.getProductId())
-                                .productName(orderItem.getProduct().getName())
-                                .productDescription(orderItem.getProduct().getDescription())
-                                .productImage(orderItem.getProduct().getImage())
-                                .productPrice(orderItem.getProduct().getPrice())
-                                .amount(orderItem.getAmount())
+                                .id(orderItemDTO.getId())
+                                .productId(orderItemDTO.getProductId())
+                                .productName(orderItemDTO.getProduct().getName())
+                                .productDescription(orderItemDTO.getProduct().getDescription())
+                                .productImage(orderItemDTO.getProduct().getImage())
+                                .productPrice(orderItemDTO.getProduct().getPrice())
+                                .amount(orderItemDTO.getAmount())
                                 .build()
                         )
-                        .collect(Collectors.toCollection(ArrayList::new));
+                        .collect(Collectors.toList());
 
         // OrderRequestDTO -> Order
         modelMapper.createTypeMap(OrderRequestDTO.class, Order.class)
