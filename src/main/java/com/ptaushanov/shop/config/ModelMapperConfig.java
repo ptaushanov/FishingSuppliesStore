@@ -4,6 +4,7 @@ import com.ptaushanov.shop.dto.auth.RegisterRequestDTO;
 import com.ptaushanov.shop.dto.category.CategoryRequestDTO;
 import com.ptaushanov.shop.dto.order.OrderItemDTO;
 import com.ptaushanov.shop.dto.order.OrderRequestDTO;
+import com.ptaushanov.shop.dto.order.OrderResponseDTO;
 import com.ptaushanov.shop.dto.product.ProductRequestDTO;
 import com.ptaushanov.shop.model.*;
 import org.modelmapper.Converter;
@@ -48,19 +49,33 @@ public class ModelMapperConfig {
         // OrderRequestDTO -> Order
         modelMapper.createTypeMap(OrderRequestDTO.class, Order.class)
                 .addMapping(OrderRequestDTO::getId, Order::setId)
-                .addMapping(OrderRequestDTO::getOrderItems, Order::setOrderItems)
+                .addMapping(src -> {
+                    List<OrderItemDTO> orderItems = src.getOrderItems();
+                    if (orderItems == null) {
+                        return null;
+                    }
+                    return orderItems.stream()
+                            .map(dto -> modelMapper.map(dto, OrderItem.class))
+                            .collect(Collectors.toList());
+                }, Order::setOrderItems)
                 .addMapping(OrderRequestDTO::getCustomer, Order::setCustomer);
 
         // Order -> OrderResponseDTO
-//        modelMapper.createTypeMap(Order.class, OrderResponseDTO.class)
-//                .addMapping(
-//                        src -> src.getCustomer().getUsername(),
-//                        OrderResponseDTO::setCustomerUsername
-//                )
-//                .addMapping(src -> src.getCustomer().getEmail(), OrderResponseDTO::setCustomerEmail)
-//                .addMapping(src -> src.getOrderItems().stream().map(
-//                        item -> modelMapper.map(item, OrderItemDTO.class)).collect(
-//                        Collectors.toList()), OrderResponseDTO::setOrderItems);
+        modelMapper.createTypeMap(Order.class, OrderResponseDTO.class)
+                .addMapping(
+                        src -> src.getCustomer().getUsername(),
+                        OrderResponseDTO::setCustomerUsername
+                )
+                .addMapping(src -> src.getCustomer().getEmail(), OrderResponseDTO::setCustomerEmail)
+                .addMapping(src -> {
+                    List<OrderItem> orderItems = src.getOrderItems();
+                    if (orderItems == null) {
+                        return null;
+                    }
+                    return orderItems.stream()
+                            .map(orderItem -> modelMapper.map(orderItem, OrderItemDTO.class))
+                            .collect(Collectors.toList());
+                }, OrderResponseDTO::setOrderItems);
 
         return modelMapper;
     }
