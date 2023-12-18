@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,28 +37,27 @@ public class ModelMapperConfig {
 
 
         // OrderItemDTO -> OrderItem
-        modelMapper.addConverter((Converter<List<OrderItemDTO>, List<OrderItem>>) context -> {
-            List<OrderItemDTO> source = context.getSource();
-            if (source == null) {
-                return null;
-            }
-            return source.stream()
-                    .map(dto -> modelMapper.map(dto, OrderItem.class))
-                    .collect(Collectors.toList());
-        });
+        // Add a custom mapping for the order items
+        Converter<List<OrderItemDTO>, ArrayList<OrderItem>> orderItemsConverter = context ->
+                context.getSource().stream()
+                        .map(orderItem -> OrderItem
+                                .builder()
+                                .id(orderItem.getId())
+                                .productId(orderItem.getProductId())
+                                .productName(orderItem.getProduct().getName())
+                                .productDescription(orderItem.getProduct().getDescription())
+                                .productImage(orderItem.getProduct().getImage())
+                                .productPrice(orderItem.getProduct().getPrice())
+                                .amount(orderItem.getAmount())
+                                .build()
+                        )
+                        .collect(Collectors.toCollection(ArrayList::new));
 
         // OrderRequestDTO -> Order
         modelMapper.createTypeMap(OrderRequestDTO.class, Order.class)
                 .addMapping(OrderRequestDTO::getId, Order::setId)
-                .addMapping(src -> {
-                    List<OrderItemDTO> orderItems = src.getOrderItems();
-                    if (orderItems == null) {
-                        return null;
-                    }
-                    return orderItems.stream()
-                            .map(dto -> modelMapper.map(dto, OrderItem.class))
-                            .collect(Collectors.toList());
-                }, Order::setOrderItems)
+                .addMappings(mapper -> mapper.using(orderItemsConverter)
+                        .map(OrderRequestDTO::getOrderItems, Order::setOrderItems))
                 .addMapping(OrderRequestDTO::getCustomer, Order::setCustomer);
 
         // Order -> OrderResponseDTO
