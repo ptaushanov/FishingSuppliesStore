@@ -45,8 +45,8 @@ public class Order {
     @PrePersist
     @PreUpdate
     private void calculateTotalPrice() {
+        double total = 0.0;
         if (orderItems != null) {
-            double total = 0.0;
             for (OrderItem orderItem : orderItems) {
                 total += orderItem.getProductPrice() * orderItem.getAmount();
             }

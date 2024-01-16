@@ -17,7 +17,7 @@ public class OrderController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping
-    public Page<OrderResponseDTO> getAllCategories(
+    public Page<OrderResponseDTO> getAllOrders(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "5") int size,
             @RequestParam(name = "sort", defaultValue = "id,asc") String sortString
